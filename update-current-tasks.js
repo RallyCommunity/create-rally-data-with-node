@@ -85,13 +85,6 @@ function findTasksInCurrentIteration(rallyApi){
     });  
 }
 
-/*
- * Update task code below resulted in concurrency error.
- *
- *
- * Failure! [ 'Concurrency conflict: [Object has been modified since being read for update in this context] -
- * ConcurrencyConflictException : Modified since read on update : Object Class : com.f4tech.slm.domain.UserStory : ObjectID : 35633828733' ]
- */
 
 function updateTasks(result){
     console.log('Found ', result.Results.length, 'tasks');
@@ -100,21 +93,29 @@ function updateTasks(result){
         var length = Math.floor((tasksToUpdate/100)*result.Results.length);
         console.log('length',length);
         var updatedTasks = [];
-        var nextState = currentConfig['nextState'];
         for(var i=0;i<length;i++){
-            updatedTasks.push(rallyApi.update({
-                ref: result.Results[i]._ref,
-                data: {
-                    State: nextState
-                },
-                fetch: ['FormattedID']
-            }));
+            updatedTasks.push(updateTask(result.Results[i]));
         }
         return q.all(updatedTasks);
     }
     else{
         return 'nothing to update';
     }
+}
+
+function updateTask(task){
+    var nextState = currentConfig['nextState'];
+    setTimeout(function(){
+        console.log('updating ', task._refObjectName);
+        return rallyApi.update({
+        ref: task._ref,
+        data: {
+            State: nextState
+        },
+        fetch: ['FormattedID']
+    });
+    },10000)
+    
 }
 
 function randomInt (low, high) {
