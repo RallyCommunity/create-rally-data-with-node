@@ -1,0 +1,20 @@
+{
+    "kepler":{
+        "ref":"/user/1245",
+        "apiKey":"_abc123",
+        "currentState":"Defined",
+        "nextState":"In-Progress"
+    },
+    "tyhobrahe":{
+        "ref":"/user/6789",
+        "apiKey":"_def123",
+        "currentState":"Defined",
+        "nextState":"In-Progress"
+    },
+    "klampakis":{
+        "ref":"/user/5432",
+        "apiKey":"_gik123",
+        "currentState":"Defined",
+        "nextState":"In-Progress"
+    }
+}
