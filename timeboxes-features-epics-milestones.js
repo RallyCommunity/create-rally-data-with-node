@@ -56,9 +56,6 @@ function getProjects() {
 
 
 function makeReleases(result) {
-    //for(var i=0; i<result.Results.length; i++){
-    //    console.log(result.Results[i]._refObjectName);
-    //}
     var releases = [];
     var numOfReleasesEachProject = 2;
     var releaseLength = 30;
@@ -74,7 +71,6 @@ function makeReleases(result) {
                 State: 'Planning'
             };
             for(var i=0; i<result.Results.length; i++){
-                //if(result.Results[i].Children.ObjectID !== null){ //all return true, why?
                 if (result.Results[i].Children.Count > 0) {
                     data.Notes = "CreateFeaturesMilestones:Yes";
                 }
@@ -113,7 +109,6 @@ function makeIterations(result) {
                         StartDate: iterationStartDate.toISOString(),
                         EndDate: iterationEndDate.toISOString(),
                         State: 'Planning'
-                        //PlannedVelocity: 12
                     },
                     fetch: ['ObjectID','Project','StartDate','EndDate'],  
                     scope: {
@@ -130,8 +125,6 @@ function makeMilestones(result){
     var releases = result[0];
     var randomDaysBeforeRelease = randomInt(1, 7);
     for (var i = 0; i < releases.length; i++) {
-        //if (releases[i].Object.ChildrenPlannedVelocity !== 0) { //if not a leaf project
-        //cannot rely on ChildrenPlannedVelocity to be calculated in time
         if (releases[i].Object.Notes === "CreateFeaturesMilestones:Yes") {
             var milestoneDate = new Date((new Date(releases[i].Object.ReleaseDate.substring(0,10)))
                                          - millisecondsInDay*randomDaysBeforeRelease);
@@ -162,8 +155,6 @@ function makeFeatures(result){
     var releases = result[0];
     var missionTypes = ['Flyby','Orbiter','Lander','Rover'];
     for (var i = 0; i < releases.length; i++) {
-        //if (releases[i].Object.ChildrenPlannedVelocity !== 0) { //if not a leaf project
-        //cannot rely on ChildrenPlannedVelocity to be calculated in time
         if (releases[i].Object.Notes === "CreateFeaturesMilestones:Yes") {
             var targetProjectRef = releases[i].Object.Project._ref;
             var targetProjectName = releases[i].Object.Project._refObjectName;
@@ -200,7 +191,6 @@ function makeEpicStories(result){
     var numOfStoriesPerFeature = randomInt(2, 4);
     for (var i = 0; i < milestones.length; i++) {
         (function( lockedIndex ){
-            //console.log('lockedIndex ',lockedIndex);
             makeFeatureForMilestone(milestones[i].Object)
                 .then(function(result){
                     var refOfFeature = result.Object._ref;
