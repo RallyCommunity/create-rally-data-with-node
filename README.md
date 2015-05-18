@@ -1,0 +1,18 @@
+Create Rally data
+=========================
+
+## Overview
+These scripts written with [rally-node](https://github.com/RallyTools/rally-node) create Rally test data, and should be run in the following order:
+
+1. *timeboxes-features-epics-milestones.js* creates releases, iterations, milestones, features scheduled for releases, features linked to milestones, and stories parented by features.
+2. *create-schedule-stories-tasks.js* creates leaf stories, schedule them for a current release and iteration, creates tasks, sets stories created in the previous step as parents of scheduled stories. If, for example, you set your iterations length to two weeks run this script once in two weeks. 
+3. *update-current-tasks.js* updates State of tasks in current iteration. Run it as many times as needed to update tasks during current iteration. The script uses a config file to read apiKey of a user designated to be the author of updates, construct a query based on current state of Tasks and set next State. For each run a random percentage of tasks (between 10 and 20%) returned by the query is being updated. That can be changed in `var tasksToUpdate = randomInt(10, 20);`
+
+This app is vailable AS IS. It is NOT supported by Rally.
+## License
+
+AppTemplate is released under the MIT license.  See the file [LICENSE](./LICENSE) for the full text.
+
+##Documentation for SDK
+
+You can find the documentation on our help [site.](https://github.com/RallyTools/rally-node/wiki/User-Guide)
